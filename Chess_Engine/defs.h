@@ -3,7 +3,7 @@
 #define DEFS_H
 
 
-unsigned long long  U64;
+typedef unsigned long long  U64;
 
 
 #define NAME "Xurma Chess 1.0"
@@ -27,5 +27,26 @@ enum {
 	A8 = 91, B8, C8, D8, E8, F8, G8, H8, NO_SQ
 };
 enum {FALSE,TRUE};
+
+
+class Board {
+public:
+	int pieces[BOARD_SQUARE_NUMBERS];
+	U64 pawns[3];
+	int kingSquare;
+	int side;
+	int enPas;
+	int fifty;
+	int ply;
+	int hisPlay;
+	U64 posKey;
+	int pceNum[13];  // piece numbers
+
+	int bigPiece[3];  //[3] means BLACK, WHITE, BOTH
+	int majorPiece[3];
+	int minPiece[3];
+
+
+};
 #endif
 

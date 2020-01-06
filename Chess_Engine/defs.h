@@ -1,13 +1,32 @@
 #pragma once
 #ifndef DEFS_H
 #define DEFS_H
+#include<stdlib.h>
+
+
+#define DEBUG
+
+#ifndef DEBUG
+#define ASSERT(n)
+#else
+#define ASSERT(n) \
+if(!(n)) { \
+printf("%s - Failed",#n); \
+printf("On %s ",__DATE__); \
+printf("At %s ",__TIME__); \
+printf("In File %s ",__FILE__); \
+printf("At Line %d\n",__LINE__); \
+exit(1);}
+#endif
 
 
 typedef unsigned long long  U64;
 
 
-#define NAME "Xurma Chess 1.0"
+#define NAME "White Dog Chess 1.0"
 #define BOARD_SQUARE_NUMBERS 120
+
+#define MAXGAMEMOVES 2048
 /* 
 // @ wP = White Pawn
 // ...
@@ -28,7 +47,17 @@ enum {
 };
 enum {FALSE,TRUE};
 
+enum castle {wKCA=1,wQCA=2,bKCA=4,bQCA=8};
 
+struct UndoMove {
+	int move;
+	int availableCastle;
+	int enPas; //en Passant 
+	int fiftyMove;
+	U64 positionKey;
+	
+	
+};
 class Board {
 public:
 	int pieces[BOARD_SQUARE_NUMBERS];
@@ -42,11 +71,44 @@ public:
 	U64 posKey;
 	int pceNum[13];  // piece numbers
 
-	int bigPiece[3];  //[3] means BLACK, WHITE, BOTH
+	//   @ availableCastle INTEGER type 
+	//   beacause of 4 bytes 0 0 0 0 means castle is available both side for both color
+	//                       0 0 0 1 means castle is available only black and queen side (long castle)
+	//                       1 0 0 1 means castle is available for white at king side (short castle) and black at queen side
+	//                       0 1 0 0 means castle is available for only white at queen side
+	//                       and so on... 
+	                         
+	int availableCastle;
+	
+    //[3] means BLACK, WHITE, BOTH
+	int bigPiece[3]; 
 	int majorPiece[3];
 	int minPiece[3];
 
 
+	//  @at whatever move number were at in the game we will store
+	// move about to made @move;
+	// castle permission  @availableCastle;
+	// fifty move status  @fiftyMove;
+	UndoMove history[MAXGAMEMOVES];   
+	int pList[13][10];
+
+
 };
+
+
+#define FR2SQ(f,r) ((21)+(f))+ ((r)*10)  //@f means file , @r means rank
+#define SQ64 Sq120ToSq64[BOARD_SQUARE_NUMBERS];
+
+
+extern int Sq120ToSq64[BOARD_SQUARE_NUMBERS];
+extern int Sq64ToSq120[64];
+
+extern void init();
+
+
+
+
+
 #endif
 

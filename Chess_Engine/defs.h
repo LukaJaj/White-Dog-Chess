@@ -97,18 +97,25 @@ public:
 };
 
 
-#define FR2SQ(f,r) ((21)+(f))+ ((r)*10)  //@f means file , @r means rank
-#define SQ64 Sq120ToSq64[BOARD_SQUARE_NUMBERS];
 
+/* MACROS */
+
+#define FR2SQ(f,r) ( (21 + (f) ) + ( (r) * 10 ) ) 
+#define SQ64(sq120) Sq120ToSq64[BOARD_SQUARE_NUMBERS]
+
+/* GLOBALS */
 
 extern int Sq120ToSq64[BOARD_SQUARE_NUMBERS];
 extern int Sq64ToSq120[64];
 
+
+/* FUNCTIONS */
+
+// init.c
 extern void init();
 
-
-
-
+// bitboards.c
+extern void PrintBitBoard(U64 bb);
 
 #endif
 

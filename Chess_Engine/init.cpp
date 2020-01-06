@@ -33,4 +33,5 @@ void InitSq120To64() {
 
 void init() {
 	InitSq120To64();
+	
 }
